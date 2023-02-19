@@ -1,13 +1,14 @@
 extends Area2D
 
 
-export var movement_speed = 100 #max = 500
-export var angular_speed = 5 #max = 10
-export var health = 100
-var turn = 0 #for backward movement
+export var movement_speed := 150 # max = 500
+export var angular_speed := 5 # max = 10
+export var health := 100
+var turn = 0 # for backward movement
+var screen_size
 
 func _ready():
-	pass # Replace with function body.
+	screen_size = get_viewport_rect().size
 
 func _process(delta):
 	# TURNING MOVEMENT (LEFT RIGHT)
@@ -22,7 +23,7 @@ func _process(delta):
 	var velocity := Vector2.ZERO
 	if Input.is_action_pressed("move_up"):
 		velocity = Vector2.UP.rotated(rotation) * movement_speed
-	elif Input.is_action_pressed("move_down"):
+	if Input.is_action_pressed("move_down"):
 		if turn < PI: # ONLY turn if player hasn't turned for 180 degrees
 			direction = angular_speed * 2 * delta # reused direction variable so that it will still trigger animation 
 			rotation += direction
@@ -30,7 +31,8 @@ func _process(delta):
 	if Input.is_action_just_released("move_down"):
 		turn = 0 # reset turn after down is released so the player can turn 180 again
 	position += velocity * delta
-	
+	position.x = clamp(position.x, 0, screen_size.x)
+	position.y = clamp(position.y, 0, screen_size.y)
 	
 	if velocity != Vector2.ZERO || direction != 0:
 		$AnimatedSprite.play()
