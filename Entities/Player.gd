@@ -1,6 +1,6 @@
 extends Area2D
 
-
+export var player_level := 1 # max = 20 
 export var movement_speed := 150 # max = 500
 export var angular_speed := 5 # max = 10
 export var health := 100
