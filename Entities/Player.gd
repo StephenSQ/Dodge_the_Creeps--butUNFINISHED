@@ -35,7 +35,7 @@ func _process(delta):
 	position.y = clamp(position.y, 0, screen_size.y)
 	
 	if velocity != Vector2.ZERO || direction != 0:
-		$AnimatedSprite.play()
+		$AnimationPlayer.play("Default")
 	else:
-		$AnimatedSprite.stop()
-		$AnimatedSprite.frame = 0
+		$AnimationPlayer.stop()
+		$BodySprite.frame = 0
