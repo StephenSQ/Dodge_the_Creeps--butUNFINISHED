@@ -19,7 +19,7 @@ func _process(delta):
 		direction += 1
 	rotation += angular_speed * direction * delta
 	
-	#FORWARD BACKWARD MOVEMENT (BACKWARD MOVEMENT IN THE FORM OF TURNING 180 QUICKLY)
+	# FORWARD BACKWARD MOVEMENT (BACKWARD MOVEMENT IN THE FORM OF TURNING 180 QUICKLY)
 	var velocity := Vector2.ZERO
 	if Input.is_action_pressed("move_up"):
 		velocity = Vector2.UP.rotated(rotation) * movement_speed
@@ -30,12 +30,19 @@ func _process(delta):
 			turn += direction
 	if Input.is_action_just_released("move_down"):
 		turn = 0 # reset turn after down is released so the player can turn 180 again
-	position += velocity * delta
+	position += velocity * delta #HOW DO I IMPLEMENT A BOBBING MOVEMENT HERE
 	position.x = clamp(position.x, 0, screen_size.x)
 	position.y = clamp(position.y, 0, screen_size.y)
 	
-	if velocity != Vector2.ZERO || direction != 0:
-		$AnimationPlayer.play("Default")
+	if velocity:
+		$AnimationPlayer.play("move")
 	else:
-		$AnimationPlayer.stop()
-		$BodySprite.frame = 0
+		if direction > 0:
+			$AnimationPlayer.play("turn")
+		elif direction < 0:
+			$BodySprite.flip_h = true
+			$AnimationPlayer.play("turn")
+		else:
+			$BodySprite.flip_h = false
+			$AnimationPlayer.stop()
+			$BodySprite.frame = 0
