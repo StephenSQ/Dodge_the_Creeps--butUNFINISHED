@@ -42,13 +42,6 @@ func _physics_process(delta) -> void:
 		else:
 			animation_player.stop()
 			body_sprite.frame = 0
-	
-	if $PlayerFSM._current_state == $PlayerFSM._state_dict.IDLE:
-		$Label.text = "IDLE"
-	elif $PlayerFSM._current_state == $PlayerFSM._state_dict.MOVE:
-		$Label.text = "MOVE"
-	$Label2.text = String(linear_velocity)
-	$Label3.text = String(angular_velocity)
 
 
 func take_damage(damage: int) -> void:

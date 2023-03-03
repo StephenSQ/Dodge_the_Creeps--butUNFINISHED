@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Assets/art/PlayerSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Entities/Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Entities/Player/PlayerFSM.gd" type="Script" id=3]
 
 [sub_resource type="PhysicsMaterial" id=4]
 bounce = 0.1
@@ -77,9 +76,6 @@ __meta__ = {
 "_edit_group_": true
 }
 
-[node name="PlayerFSM" type="Node" parent="."]
-script = ExtResource( 3 )
-
 [node name="BodySprite" type="Sprite" parent="."]
 scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 1 )
@@ -94,27 +90,3 @@ shape = SubResource( 1 )
 playback_speed = 2.0
 anims/move_forward = SubResource( 2 )
 anims/turn = SubResource( 3 )
-
-[node name="Label" type="Label" parent="."]
-margin_left = -40.0
-margin_top = -72.0
-margin_right = 39.0
-margin_bottom = -44.0
-align = 1
-valign = 1
-autowrap = true
-uppercase = true
-
-[node name="Label2" type="Label" parent="."]
-margin_left = -13.0
-margin_top = 75.0
-margin_right = 221.0
-margin_bottom = 102.0
-align = 1
-valign = 1
-
-[node name="Label3" type="Label" parent="."]
-margin_left = 35.0
-margin_top = 15.0
-margin_right = 184.0
-margin_bottom = 29.0
