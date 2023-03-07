@@ -5,8 +5,7 @@ extends Area2D
 func _init() -> void:
 	input_pickable = false
 	collision_layer = 0		# Disable collision layer because TriggerBox just scans for HurtBox
-	collision_mask = 256	# layer 9 is to detect HurtBoxes | note HitBoxes also activates TriggerBox
-
+	collision_mask = 256	# layer 9 is to detect HurtBoxes
 
 func _ready() -> void:
 # warning-ignore:return_value_discarded

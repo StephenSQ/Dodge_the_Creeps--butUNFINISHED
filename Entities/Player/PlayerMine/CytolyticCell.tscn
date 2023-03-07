@@ -176,7 +176,7 @@ end_node = "despawn"
 radius = 30.0
 
 [sub_resource type="CircleShape2D" id=20]
-radius = 130.0
+radius = 100.0
 
 [node name="CytolyticCell" type="Area2D"]
 input_pickable = false
@@ -213,7 +213,6 @@ anims/spawn = SubResource( 15 )
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 12 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 process_mode = 0
 parameters/playback = SubResource( 13 )
 
