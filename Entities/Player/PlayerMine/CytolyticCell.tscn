@@ -1,0 +1,239 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://Assets/art/PlayerAttackSpriteSheet.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/HitBox.gd" type="Script" id=2]
+[ext_resource path="res://Entities/Player/PlayerMine/CytolyticCell.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/TriggerBox.gd" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 100.0
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AreaCollision:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("HitBox/HitBoxCollision:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "despawn"
+tracks/0/type = "method"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "explode"
+length = 0.541667
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 8, 9, 10, 11 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AreaCollision:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.208333, 0.541667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("HitBox/HitBoxCollision:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.208333, 0.541667 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle"
+length = 0.9
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7, 5 ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "spawn"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "despawn"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "explode"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/RESET/node = SubResource( 14 )
+states/RESET/position = Vector2( 122, 80 )
+states/despawn/node = SubResource( 22 )
+states/despawn/position = Vector2( 837, 80 )
+states/explode/node = SubResource( 7 )
+states/explode/position = Vector2( 646, 80 )
+states/idle/node = SubResource( 8 )
+states/idle/position = Vector2( 473, 80 )
+states/spawn/node = SubResource( 16 )
+states/spawn/position = Vector2( 307, 80 )
+transitions = [ "idle", "explode", SubResource( 11 ), "RESET", "spawn", SubResource( 17 ), "spawn", "idle", SubResource( 18 ), "explode", "despawn", SubResource( 23 ) ]
+start_node = "RESET"
+end_node = "despawn"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+
+[sub_resource type="CircleShape2D" id=19]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id=20]
+radius = 130.0
+
+[node name="CytolyticCell" type="Area2D"]
+input_pickable = false
+priority = 1.0
+space_override = 2
+gravity_point = true
+gravity_vec = Vector2( 0, 0 )
+gravity = -3000.0
+linear_damp = 0.0
+angular_damp = 0.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="AreaCollision" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 1 )
+hframes = 4
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
+anims/RESET = SubResource( 6 )
+anims/despawn = SubResource( 21 )
+anims/explode = SubResource( 3 )
+anims/idle = SubResource( 4 )
+anims/spawn = SubResource( 15 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 12 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+process_mode = 0
+parameters/playback = SubResource( 13 )
+
+[node name="LifeTime" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="TriggerBox" type="Area2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="TriggerCollision" type="CollisionShape2D" parent="TriggerBox"]
+shape = SubResource( 19 )
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource( 20 )
+disabled = true
+
+[connection signal="body_entered" from="." to="." method="_on_CytolyticCell_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_CytolyticCell_body_exited"]
+[connection signal="timeout" from="LifeTime" to="." method="_on_LifeTime_timeout"]

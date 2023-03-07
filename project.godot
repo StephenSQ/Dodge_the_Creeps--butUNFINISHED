@@ -17,7 +17,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "HitBox",
 "language": "GDScript",
-"path": "res://Scripts/Hitbox.gd"
+"path": "res://Scripts/HitBox.gd"
 }, {
 "base": "Area2D",
 "class": "HurtBox",
@@ -28,12 +28,18 @@ _global_script_classes=[ {
 "class": "StateMachine",
 "language": "GDScript",
 "path": "res://Scripts/StateMachine.gd"
+}, {
+"base": "Area2D",
+"class": "TriggerBox",
+"language": "GDScript",
+"path": "res://Scripts/TriggerBox.gd"
 } ]
 _global_script_class_icons={
 "GitAPI": "",
 "HitBox": "",
 "HurtBox": "",
-"StateMachine": ""
+"StateMachine": "",
+"TriggerBox": ""
 }
 
 [application]

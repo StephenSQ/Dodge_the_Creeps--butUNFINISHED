@@ -3,8 +3,14 @@ extends Area2D
 
 
 func _init() -> void:
-	collision_layer = 0		# Disable collision layer because HurtBox just scans for HitBox
-	collision_mask = 256	# layer 9 is for HitBoxes
+	input_pickable = false
+	collision_layer = 256	# layer 9 to be detected by TriggerBoxes
+	collision_mask = 256	# layer 9 to detect HitBoxes
+
+
+func _ready() -> void:
+# warning-ignore:return_value_discarded
+	connect("area_entered", self, "_on_area_entered")
 
 
 func _on_area_entered(hitbox: HitBox) -> void:
