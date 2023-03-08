@@ -1,11 +1,18 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Assets/art/PlayerAttackSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/HitBox.gd" type="Script" id=2]
 [ext_resource path="res://Entities/Player/PlayerMine/CytolyticCell.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/TriggerBox.gd" type="Script" id=4]
+[ext_resource path="res://Assets/art/PlayerAttackParticle.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id=19]
+radius = 30.0
+
+[sub_resource type="CircleShape2D" id=20]
 radius = 100.0
 
 [sub_resource type="Animation" id=6]
@@ -34,9 +41,34 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("BodySprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SplashParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=21]
 resource_name = "despawn"
+length = 7.0
 tracks/0/type = "method"
 tracks/0/path = NodePath(".")
 tracks/0/interp = 1
@@ -44,12 +76,24 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 7 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "queue_free"
 } ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BodySprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 3, 7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -57,7 +101,7 @@ resource_name = "explode"
 length = 0.541667
 step = 0.0416667
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("BodySprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -92,13 +136,25 @@ tracks/2/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("SplashParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.208333 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "idle"
 length = 0.9
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("BodySprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -114,7 +170,7 @@ tracks/0/keys = {
 resource_name = "spawn"
 length = 0.8
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("BodySprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -172,11 +228,22 @@ end_node = "despawn"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
-[sub_resource type="CircleShape2D" id=19]
-radius = 30.0
-
-[sub_resource type="CircleShape2D" id=20]
-radius = 100.0
+[sub_resource type="ParticlesMaterial" id=24]
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.2
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 2100.0
+damping_random = 0.2
+angle = 1.0
+angle_random = 0.8
+scale = 0.15
+scale_random = 0.1
+hue_variation = 0.02
+hue_variation_random = 0.1
 
 [node name="CytolyticCell" type="Area2D"]
 input_pickable = false
@@ -196,7 +263,20 @@ __meta__ = {
 shape = SubResource( 1 )
 disabled = true
 
-[node name="Sprite" type="Sprite" parent="."]
+[node name="TriggerBox" type="Area2D" parent="."]
+script = ExtResource( 4 )
+
+[node name="TriggerCollision" type="CollisionShape2D" parent="TriggerBox"]
+shape = SubResource( 19 )
+
+[node name="HitBox" type="Area2D" parent="."]
+script = ExtResource( 2 )
+
+[node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
+shape = SubResource( 20 )
+disabled = true
+
+[node name="BodySprite" type="Sprite" parent="."]
 scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
 hframes = 4
@@ -220,18 +300,16 @@ parameters/playback = SubResource( 13 )
 wait_time = 10.0
 one_shot = true
 
-[node name="TriggerBox" type="Area2D" parent="."]
-script = ExtResource( 4 )
-
-[node name="TriggerCollision" type="CollisionShape2D" parent="TriggerBox"]
-shape = SubResource( 19 )
-
-[node name="HitBox" type="Area2D" parent="."]
-script = ExtResource( 2 )
-
-[node name="HitBoxCollision" type="CollisionShape2D" parent="HitBox"]
-shape = SubResource( 20 )
-disabled = true
+[node name="SplashParticles" type="Particles2D" parent="."]
+emitting = false
+lifetime = 6.0
+one_shot = true
+preprocess = 0.3
+explosiveness = 0.9
+randomness = 0.6
+local_coords = false
+process_material = SubResource( 24 )
+texture = ExtResource( 5 )
 
 [connection signal="body_entered" from="." to="." method="_on_CytolyticCell_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_CytolyticCell_body_exited"]
