@@ -45,6 +45,7 @@ _global_script_class_icons={
 [application]
 
 config/name="2D_GameDemo_Remake"
+run/main_scene="res://MainTest.tscn"
 config/icon="res://icon.png"
 
 [editor]

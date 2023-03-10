@@ -1,10 +1,10 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://Assets/art/PlayerAttackSpriteSheet.png" type="Texture" id=1]
+[ext_resource path="res://Assets/art/Player/CytoAttackSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Scripts/HitBox.gd" type="Script" id=2]
 [ext_resource path="res://Entities/Player/PlayerMine/CytolyticCell.gd" type="Script" id=3]
 [ext_resource path="res://Scripts/TriggerBox.gd" type="Script" id=4]
-[ext_resource path="res://Assets/art/PlayerAttackParticle.png" type="Texture" id=5]
+[ext_resource path="res://Assets/art/Player/CytoSplashParticle.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 100.0
@@ -14,6 +14,59 @@ radius = 30.0
 
 [sub_resource type="CircleShape2D" id=20]
 radius = 100.0
+
+[sub_resource type="Curve" id=28]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=29]
+width = 1024
+curve = SubResource( 28 )
+
+[sub_resource type="ParticlesMaterial" id=27]
+lifetime_randomness = 0.1
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 3000.0
+damping_random = 0.2
+angle = 30.0
+angle_random = 0.2
+scale = 0.06
+scale_random = 0.2
+scale_curve = SubResource( 29 )
+color = Color( 1, 0.882353, 0.823529, 1 )
+hue_variation = 0.1
+hue_variation_random = 0.02
+
+[sub_resource type="Curve" id=25]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=26]
+width = 1024
+curve = SubResource( 25 )
+
+[sub_resource type="ParticlesMaterial" id=24]
+lifetime_randomness = 0.1
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 500.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 2100.0
+damping_random = 0.2
+angle = 30.0
+angle_random = 0.2
+scale = 0.2
+scale_random = 0.1
+scale_curve = SubResource( 26 )
+hue_variation = 0.03
+hue_variation_random = 0.02
 
 [sub_resource type="Animation" id=6]
 length = 0.001
@@ -60,6 +113,18 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("SplatterParticles:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -148,6 +213,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath("SplatterParticles:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.21 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "idle"
@@ -228,23 +305,6 @@ end_node = "despawn"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
-[sub_resource type="ParticlesMaterial" id=24]
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 500.0
-initial_velocity_random = 0.2
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 2100.0
-damping_random = 0.2
-angle = 1.0
-angle_random = 0.8
-scale = 0.15
-scale_random = 0.1
-hue_variation = 0.02
-hue_variation_random = 0.1
-
 [node name="CytolyticCell" type="Area2D"]
 input_pickable = false
 priority = 1.0
@@ -281,6 +341,30 @@ scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 3
+frame = 1
+
+[node name="SplatterParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 5
+lifetime = 6.0
+one_shot = true
+preprocess = 0.3
+explosiveness = 0.95
+randomness = 0.2
+local_coords = false
+process_material = SubResource( 27 )
+texture = ExtResource( 5 )
+
+[node name="SplashParticles" type="Particles2D" parent="."]
+emitting = false
+lifetime = 6.0
+one_shot = true
+preprocess = 0.3
+explosiveness = 0.9
+randomness = 0.2
+local_coords = false
+process_material = SubResource( 24 )
+texture = ExtResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 playback_process_mode = 0
@@ -297,19 +381,8 @@ process_mode = 0
 parameters/playback = SubResource( 13 )
 
 [node name="LifeTime" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 5.0
 one_shot = true
-
-[node name="SplashParticles" type="Particles2D" parent="."]
-emitting = false
-lifetime = 6.0
-one_shot = true
-preprocess = 0.3
-explosiveness = 0.9
-randomness = 0.6
-local_coords = false
-process_material = SubResource( 24 )
-texture = ExtResource( 5 )
 
 [connection signal="body_entered" from="." to="." method="_on_CytolyticCell_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_CytolyticCell_body_exited"]

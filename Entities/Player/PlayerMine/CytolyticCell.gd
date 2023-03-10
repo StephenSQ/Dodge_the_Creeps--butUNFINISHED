@@ -7,6 +7,7 @@ onready var state_machine
 func _ready():
 	state_machine = $AnimationTree.get("parameters/playback")
 	$AnimationTree.active = true
+	rotation = randi() % 361
 	$LifeTime.start()
 
 func triggered() -> void:

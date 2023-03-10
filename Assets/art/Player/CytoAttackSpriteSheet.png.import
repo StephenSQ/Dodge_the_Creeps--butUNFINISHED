@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PlayerAttackSpriteSheet.png-ddd6f9336bc6eeebbbb2a65aa06c73e3.stex"
+path="res://.import/CytoAttackSpriteSheet.png-2b33abaced191a53af6ca011d15f3142.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/art/PlayerAttackSpriteSheet.png"
-dest_files=[ "res://.import/PlayerAttackSpriteSheet.png-ddd6f9336bc6eeebbbb2a65aa06c73e3.stex" ]
+source_file="res://Assets/art/Player/CytoAttackSpriteSheet.png"
+dest_files=[ "res://.import/CytoAttackSpriteSheet.png-2b33abaced191a53af6ca011d15f3142.stex" ]
 
 [params]
 

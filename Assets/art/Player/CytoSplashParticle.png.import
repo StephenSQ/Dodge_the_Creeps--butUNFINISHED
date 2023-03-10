@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PlayerAttackParticle.png-a86e275080c0d62688967693d8a1b763.stex"
+path="res://.import/CytoSplashParticle.png-0631ba647b4933b01e4f41c678dd60d6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/art/PlayerAttackParticle.png"
-dest_files=[ "res://.import/PlayerAttackParticle.png-a86e275080c0d62688967693d8a1b763.stex" ]
+source_file="res://Assets/art/Player/CytoSplashParticle.png"
+dest_files=[ "res://.import/CytoSplashParticle.png-0631ba647b4933b01e4f41c678dd60d6.stex" ]
 
 [params]
 
