@@ -4,7 +4,7 @@ extends Area2D
 onready var state_machine
 
 
-func _ready():
+func _ready() -> void:
 	state_machine = $AnimationTree.get("parameters/playback")
 	$AnimationTree.active = true
 	rotation = randi() % 361

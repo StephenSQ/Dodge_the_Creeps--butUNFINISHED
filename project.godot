@@ -17,22 +17,22 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "HitBox",
 "language": "GDScript",
-"path": "res://Scripts/HitBox.gd"
+"path": "res://GlobalScripts/HitBox.gd"
 }, {
 "base": "Area2D",
 "class": "HurtBox",
 "language": "GDScript",
-"path": "res://Scripts/HurtBox.gd"
+"path": "res://GlobalScripts/HurtBox.gd"
 }, {
 "base": "Node",
 "class": "StateMachine",
 "language": "GDScript",
-"path": "res://Scripts/StateMachine.gd"
+"path": "res://GlobalScripts/StateMachine.gd"
 }, {
 "base": "Area2D",
 "class": "TriggerBox",
 "language": "GDScript",
-"path": "res://Scripts/TriggerBox.gd"
+"path": "res://GlobalScripts/TriggerBox.gd"
 } ]
 _global_script_class_icons={
 "GitAPI": "",

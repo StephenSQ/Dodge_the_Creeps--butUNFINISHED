@@ -1,0 +1,43 @@
+extends Camera2D
+
+
+onready var screen_size = get_viewport_rect().size
+var move_speed = 0.1
+var zoom_speed = 0.25
+var min_zoom = 1
+var max_zoom = 5
+var rect_margin = Vector2(400, 200)
+
+
+var tracked_targets = []
+
+func add_target(target) -> void:
+	if  not target in tracked_targets:
+		tracked_targets.append(target)
+
+func remove_target(target) -> void:
+	if target in tracked_targets:
+		tracked_targets.erase(target)
+
+func _process(_delta):
+	if !tracked_targets: 
+		return
+	
+	var destination = Vector2.ZERO
+	for target in tracked_targets:
+		destination += target.position
+	destination /= tracked_targets.size()
+	position = lerp(position, destination, move_speed)
+	
+	var zoom_rect = Rect2(position, Vector2.ONE)
+	for target in tracked_targets:
+		zoom_rect = zoom_rect.expand(target.position)
+	zoom_rect.grow_individual(rect_margin.x, rect_margin.y, rect_margin.x, rect_margin.y)
+	
+	var desired_zoom
+	if zoom_rect.size.x > zoom_rect.size.y * screen_size.aspect():
+		desired_zoom = clamp(zoom_rect.size.x / screen_size.x, min_zoom, max_zoom)
+	else:
+		desired_zoom = clamp(zoom_rect.size.y / screen_size.y, min_zoom, max_zoom)
+	
+	zoom = lerp(zoom, Vector2.ONE * desired_zoom, zoom_speed)
