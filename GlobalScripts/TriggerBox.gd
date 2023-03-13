@@ -12,7 +12,7 @@ func _ready() -> void:
 	connect("area_entered", self, "_on_area_entered")
 
 func _on_area_entered(hurtbox: HurtBox) -> void:
-	if hurtbox == null: # return if received a non HitBox collision
+	if not hurtbox: # return if received a non HitBox collision
 		return
 	
 	if owner.has_method("triggered"):

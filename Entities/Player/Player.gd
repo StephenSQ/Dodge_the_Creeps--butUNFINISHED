@@ -15,7 +15,7 @@ var max_health := 10 # max = 200
 var damage = 5
 
 var health := max_health
-var eye_target : Node = null
+var eye_target = null
 var cooldown_finished := true
 export var move_timing = 0.0 # to control movement in sync with AnimationPlayer
 
@@ -57,7 +57,9 @@ func _physics_process(delta) -> void:
 			main_animation.stop()
 			body_sprite.frame = 4
 	if eye_target:
-		eye_sprite.rotation = (eye_target.position - position).angle()
+		eye_sprite.rotation = (eye_target.position - position).angle() + (PI / 2) - rotation
+	else:
+		eye_sprite.rotation = lerp_angle(eye_sprite.rotation, 0, 0.05)
 
 
 func _unhandled_input(event) -> void:
@@ -86,10 +88,16 @@ func take_damage(amount: int) -> void:
 	second_animation.play("blink_hurt")
 
 
-func _on_SightRange_body_entered(body):
-	emit_signal("entered_sight", body)
-	eye_target = body
+func _on_SightRange_body_entered(target: RigidBody2D):
+	if not target:
+		return
+	
+	emit_signal("entered_sight", target)
+	eye_target = target
 	print("entered sight")
 
-func _on_SightRange_body_exited(body):
-	emit_signal("exited_sight", body)
+
+func _on_SightRange_body_exited(target: RigidBody2D):
+	if target == eye_target:
+		eye_target = null
+	emit_signal("exited_sight", target)

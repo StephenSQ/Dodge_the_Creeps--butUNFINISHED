@@ -14,7 +14,7 @@ func _ready() -> void:
 
 
 func _on_area_entered(hitbox: HitBox) -> void:
-	if hitbox == null: # return if received a non HitBox collision
+	if not hitbox: # return if received a non HitBox collision
 		return
 	
 	if owner.has_method("take_damage"):

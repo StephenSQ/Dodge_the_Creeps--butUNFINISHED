@@ -4,9 +4,18 @@ extends Camera2D
 onready var screen_size = get_viewport_rect().size
 var move_speed = 0.1
 var zoom_speed = 0.25
-var min_zoom = 1.2
-var max_zoom = 5
+var min_zoom = 1
+var max_zoom = 3
 var rect_margin = Vector2(400, 200)
+
+
+func _ready():
+# warning-ignore:return_value_discarded
+	get_tree().root.connect("size_changed", self, "_on_viewport_size_changed")
+
+func _on_viewport_size_changed() -> void:
+	screen_size = get_viewport_rect().size
+	print("viewport changed")
 
 
 var tracked_targets = []
@@ -18,6 +27,7 @@ func add_target(target) -> void:
 func remove_target(target) -> void:
 	if target in tracked_targets:
 		tracked_targets.erase(target)
+
 
 func _process(_delta) -> void:
 	if !tracked_targets: 
@@ -41,3 +51,11 @@ func _process(_delta) -> void:
 		desired_zoom = clamp(zoom_rect.size.y / screen_size.y, min_zoom, max_zoom)
 	
 	zoom = lerp(zoom, Vector2.ONE * desired_zoom, zoom_speed)
+
+
+func _on_Player_entered_sight(target):
+	add_target(target)
+
+
+func _on_Player_exited_sight(target):
+	remove_target(target)
