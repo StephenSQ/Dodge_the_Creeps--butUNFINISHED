@@ -11,6 +11,6 @@ CytolyticCell_scene = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
-[node name="DynamicPlayerCam" parent="." instance=ExtResource( 4 )]
+[node name="DynamicCam" parent="." instance=ExtResource( 4 )]
 
 [connection signal="attack" from="Player" to="." method="_on_Player_attack"]

@@ -4,7 +4,7 @@ extends Camera2D
 onready var screen_size = get_viewport_rect().size
 var move_speed = 0.1
 var zoom_speed = 0.25
-var min_zoom = 1
+var min_zoom = 1.2
 var max_zoom = 5
 var rect_margin = Vector2(400, 200)
 
@@ -19,7 +19,7 @@ func remove_target(target) -> void:
 	if target in tracked_targets:
 		tracked_targets.erase(target)
 
-func _process(_delta):
+func _process(_delta) -> void:
 	if !tracked_targets: 
 		return
 	

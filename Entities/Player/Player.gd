@@ -1,26 +1,33 @@
 extends RigidBody2D
 
-onready var animation_player := $AnimationPlayer
+onready var main_animation := $MainAnimations
+onready var second_animation := $SecondaryAnimations
 onready var body_sprite := $BodySprite
+onready var eye_sprite := $EyeBall
 onready var attack_cd := $AttackCD
 
 
+# STATS VARIABLES
 var player_level := 1 # max = 20 
-var move_speed := 100 # max = 200
-var turn_speed := 500 # max = 800
+var move_speed := 10000 # max = 20000, playback_speed = 3
+var turn_speed := 25000 # max = 35000
 var max_health := 10 # max = 200
-var health := max_health
 var damage = 5
-var cooldown_finished := true
 
-export var turn_timing = 0.0 # to control turning in sync with AnimationPlayer
+var health := max_health
+var eye_target : Node = null
+var cooldown_finished := true
 export var move_timing = 0.0 # to control movement in sync with AnimationPlayer
 
 signal attack # the game will instance the player's attack
+signal entered_sight # alert camera that something enter's the player's sight
+signal exited_sight # alert camera that something left the player's sight
 signal died # to inform the game that the player has died
 
 func _ready() -> void:
 	$HurtBox.collision_layer = 0 # so player's mines won't hurt the player
+	set_physics_process(false)
+	main_animation.play("spawn")
 
 func _physics_process(delta) -> void:
 	# TURNING MOVEMENT
@@ -35,24 +42,26 @@ func _physics_process(delta) -> void:
 	if Input.is_action_pressed("move_up"):
 		velocity = Vector2.UP.rotated(rotation) * move_speed
 		apply_central_impulse(velocity * move_timing * delta)
-		apply_torque_impulse(direction * turn_speed * move_timing * delta)
+		apply_torque_impulse(direction * turn_speed * delta)
 	else:
-		apply_torque_impulse(direction * turn_speed * turn_timing * delta)
+		apply_torque_impulse(direction * turn_speed * delta)
 	
 	
 	if velocity:
-		animation_player.play("move_forward")
+		main_animation.play("move_forward")
 	else:
 		if direction != 0:
 			body_sprite.flip_h = direction > 0
-			animation_player.play("turn")
+			main_animation.play("turn")
 		else:
-			animation_player.stop()
-			body_sprite.frame = 0
+			main_animation.stop()
+			body_sprite.frame = 4
+	if eye_target:
+		eye_sprite.rotation = (eye_target.position - position).angle()
 
 
 func _unhandled_input(event) -> void:
-	if event.is_action_pressed("move_down") && cooldown_finished:
+	if event.is_action_pressed("attack_spacebar") && cooldown_finished:
 		emit_signal("attack", damage)
 		attack_cd.start()
 		cooldown_finished = false
@@ -72,5 +81,15 @@ func take_damage(amount: int) -> void:
 	print(health)
 	if health < 1:
 		emit_signal("died")
-	else:
-		return
+#	else:
+#		return
+	second_animation.play("blink_hurt")
+
+
+func _on_SightRange_body_entered(body):
+	emit_signal("entered_sight", body)
+	eye_target = body
+	print("entered sight")
+
+func _on_SightRange_body_exited(body):
+	emit_signal("exited_sight", body)

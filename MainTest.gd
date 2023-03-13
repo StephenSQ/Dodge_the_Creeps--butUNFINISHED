@@ -3,7 +3,7 @@ extends Node
 export var CytolyticCell_scene: PackedScene
 
 func _ready() -> void:
-	$DynamicPlayerCam.add_target($Player)
+	$DynamicCam.add_target($Player)
 
 
 func _on_Player_attack(damage) -> void:
