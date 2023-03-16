@@ -10,22 +10,23 @@ onready var eye_sprite := $EyeBall
 onready var attack_cd := $AttackCD
 
 # STATS VARIABLES
-var max_level := 1.0 # max = 20 note: using update_stats you can play with every lvl stats
+var max_level := 1.0 # note: using update_stats you can play with every lvl stats
 var move_speed := 5000.0 # max = 10000, playback_speed = 3
 var turn_speed := 2000.0 # max = 4000
 var max_health := 10.0 # max = 200
-var max_ammo := 3.0 # max = 15
+var max_ammo := 3 # max = 15
 var damage := 3.0 # max = 38
 
 
-var health := max_health
-var ammo := max_ammo
+var health : float
+var ammo : int
 var eye_target = null
 export var cooldown_finished := false
 export var move_timing = 0.0 # to control movement in sync with AnimationPlayer
 
 # SIGNALS
 signal attack # the game will instance the player's attack
+signal hit # alert gameworld player got hit
 signal entered_sight # alert camera that something enter's the player's sight
 signal exited_sight # alert camera that something left the player's sight
 signal died # to inform the game that the player has died
@@ -67,8 +68,9 @@ func _physics_process(delta) -> void:
 			body_sprite.frame = 4
 	if eye_target:
 		eye_sprite.rotation = (eye_target.position - position).angle() + (PI / 2) - rotation
-	else:
-		eye_sprite.rotation = lerp_angle(eye_sprite.rotation, 0, 0.05)
+	elif eye_sprite.rotation: # if there's nothing in sight and eye hasn't faced forward
+		eye_sprite.rotation = lerp_angle(eye_sprite.rotation, 0, 0.05) # move eye to face forward
+		print("eye move")
 
 
 # PLAYER ATTACK
@@ -83,15 +85,17 @@ func _unhandled_input(event) -> void:
 		else:
 			expressions.travel("blink")
 # SIGNAL RECEIVER CODE REFERENCE
-#func _on_Player_attack(damage) -> void:
+#func _on_Player_attack(damage, player) -> void:
 #	var player_mine = CytolyticCell_scene.instance()
-#	player_mine.position = $Player.position
+#	player_mine.position = player.position
 #	player_mine.get_node("HitBox").damage = damage
 #	add_child(player_mine)
+func _on_AttackCooldown_timeout() -> void:
+	cooldown_finished = true
 
 
-# FUNCTION CALLED BY HURTBOX
-func take_damage(amount: int) -> void:
+# PLAYER TAKE DAMAGE: FUNCTION CALLED BY HURTBOX
+func take_damage(amount: float) -> void:
 	health -= amount
 	print(health)
 	if health < 1:
@@ -104,10 +108,17 @@ func take_damage(amount: int) -> void:
 	else:
 		eyelid_reset.track_set_key_value(2, 0, 0)
 		eyelid_reset.track_set_key_value(3, 0, Color(1.0, 1.0, 1.0))
+	emit_signal("hit")
 	expressions.travel("blink_hurt")
 
-func _on_AttackCooldown_timeout() -> void:
-	cooldown_finished = true
+# PLAYER HEAL
+func heal(amount: float) -> void:
+	health = clamp(health + amount, 0, max_health)
+
+# PLAYER RELOAD
+func reload(amount: int) -> void:
+# warning-ignore:narrowing_conversion
+	ammo = clamp(ammo + amount, 0, max_ammo)
 
 
 # SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED
@@ -127,16 +138,16 @@ func _on_SightRange_body_exited(target: RigidBody2D) -> void:
 
 # TO UPDATE AND UPGRADE PLAYER STATS
 func update_stats(lvl) -> void:
-	if lvl > max_level or lvl < 1:
+	if lvl > max_level || lvl < 1:
 		return
 	
 	max_health = lvl * 10						# 10, 20, 30, ... max = 200
-	max_ammo = 3.0 + floor((lvl - 1.0) / 1.5)	# 3, 3, 4, ... max = 15
+	max_ammo = 3 + int(floor((lvl - 1.0) / 1.5))	# 3, 3, 4, ... max = 15
 	damage = lvl * 3							# 3, 6, 9, ... max = 60
 	attack_cd.wait_time = 2.97 - ((lvl - 1.0) * 0.13)	# 2.97, 2.84, max = 0.5 s
 	
 	turn_speed = 2000.0 + ceil((lvl - 1.0) * 105.26)	# 2000, 2106, ... max = 4000
-	angular_damp = 6.1 + ((lvl - 1.0) * 0.1)			# 6.1, 6.2, ... max = 8
+	angular_damp = stepify(5 + ((lvl - 1.0) * 0.15), 0.15)		# 6.1, 6.2, ... max = 8
 	
 	main_animation.playback_speed = stepify(2.0 + ((lvl - 1.0) * 0.052), 0.1) # max = 3
 	move_speed = 5000.0 + ceil((lvl - 1.0) * 157.89) # 5000, 5158, ... max = 8000
@@ -145,7 +156,12 @@ func update_stats(lvl) -> void:
 	health = max_health
 	ammo = max_ammo
 
-func upgrade() -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is for custom upgrade
-	if max_level < 20:
+func upgrade(lvl) -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is for custom upgrade
+	if lvl > 20 || lvl < 0:
+		return
+	
+	if !lvl && max_level < 20:
 		max_level += 1
+	elif lvl:
+		max_level = lvl
 	update_stats(max_level)

@@ -517,7 +517,6 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 hframes = 2
 vframes = 2
-frame = 3
 
 [node name="EyeLid" type="Sprite" parent="."]
 scale = Vector2( 0.1, 0.1 )
@@ -550,6 +549,7 @@ wait_time = 3.03
 one_shot = true
 
 [node name="DieParticles" type="Particles2D" parent="."]
+emitting = false
 amount = 15
 lifetime = 10.0
 one_shot = true

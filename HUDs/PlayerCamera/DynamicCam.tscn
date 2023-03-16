@@ -1,7 +1,45 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://HUDs/PlayerCamera/DynamicCam.gd" type="Script" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "player_died"
+length = 0.266667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667, 0.2, 0.233333, 0.266667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 15, 0 ), Vector2( 15, 15 ), Vector2( 0, 15 ), Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 10, 10 ), Vector2( 0, 10 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "shake_hurt"
+length = 0.166667
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.0333333, 0.0666667, 0.1, 0.133333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ), Vector2( 5, 0 ), Vector2( 5, 5 ), Vector2( 0, 5 ), Vector2( 0, 0 ) ]
+}
 
 [node name="DynamicCam" type="Camera2D"]
 current = true
 script = ExtResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/player_died = SubResource( 2 )
+anims/shake_hurt = SubResource( 1 )

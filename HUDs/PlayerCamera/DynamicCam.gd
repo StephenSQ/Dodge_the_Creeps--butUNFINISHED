@@ -2,10 +2,12 @@ extends Camera2D
 
 
 onready var screen_size = get_viewport_rect().size
+onready var game_world = get_parent()
+onready var animation = $AnimationPlayer
 var move_speed = 0.1
 var zoom_speed = 0.2
 var min_zoom = 0.5
-var max_zoom = 20
+var max_zoom = 10
 var rect_margin = Vector2(400, 200)
 
 
@@ -39,6 +41,7 @@ func _process(_delta) -> void:
 	destination /= tracked_targets.size()
 	position = lerp(position, destination, move_speed)
 	
+	
 	var focus_rect = Rect2(position, Vector2.ONE)
 	for target in tracked_targets:
 		focus_rect = focus_rect.expand(target.position)
@@ -59,3 +62,11 @@ func _on_Player_entered_sight(target):
 
 func _on_Player_exited_sight(target):
 	remove_target(target)
+
+
+func _on_MainTest_screenshake(shake):
+	match shake:
+		game_world.camera_action.HIT:
+			animation.play("shake_hurt")
+		game_world.camera_action.DIE:
+			animation.play("player_died")
