@@ -248,9 +248,12 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
+"args": [ false ],
+"method": "set_process_unhandled_input"
+}, {
 "args": [ false ],
 "method": "set_physics_process"
 } ]
@@ -350,11 +353,14 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 7.7 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 7.65, 7.7 ),
+"transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [ true ],
 "method": "set_physics_process"
+}, {
+"args": [ true ],
+"method": "set_process_unhandled_input"
 } ]
 }
 tracks/5/type = "value"
@@ -505,13 +511,13 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
-frame = 4
 
 [node name="EyeBall" type="Sprite" parent="."]
 scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 hframes = 2
 vframes = 2
+frame = 3
 
 [node name="EyeLid" type="Sprite" parent="."]
 scale = Vector2( 0.1, 0.1 )
@@ -520,11 +526,13 @@ hframes = 3
 vframes = 2
 
 [node name="MainAnimations" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
 playback_speed = 2.0
 anims/move_forward = SubResource( 2 )
 anims/turn = SubResource( 3 )
 
 [node name="SecondaryAnimations" type="AnimationPlayer" parent="."]
+playback_process_mode = 0
 anims/RESET = SubResource( 11 )
 anims/blink = SubResource( 8 )
 anims/blink_attack = SubResource( 10 )
@@ -542,7 +550,6 @@ wait_time = 3.03
 one_shot = true
 
 [node name="DieParticles" type="Particles2D" parent="."]
-emitting = false
 amount = 15
 lifetime = 10.0
 one_shot = true

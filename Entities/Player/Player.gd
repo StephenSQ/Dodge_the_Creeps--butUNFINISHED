@@ -37,6 +37,7 @@ func _ready() -> void:
 	$HurtBox.collision_layer = 0 # so player won't trigger its mines
 	update_stats(max_level)
 	set_physics_process(false) # be set to true on spawn animation
+	set_process_unhandled_input(false) # be set to true on spawn animation
 
 # MOVEMENT IN _PHYSICS_PROCESS()
 func _physics_process(delta) -> void:
