@@ -1,24 +1,25 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Assets/art/Player/PlayerSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://Entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://GlobalScripts/HurtBox.gd" type="Script" id=3]
 [ext_resource path="res://Assets/art/Player/PlayerEyeBall.png" type="Texture" id=4]
 [ext_resource path="res://Assets/art/Player/PlayerEyeLid.png" type="Texture" id=5]
+[ext_resource path="res://Assets/art/Player/CytoSplashParticle.png" type="Texture" id=6]
 
 [sub_resource type="PhysicsMaterial" id=4]
+friction = 0.1
 bounce = 0.1
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 32.0
-height = 8.00006
+height = 4.00001
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 32.0
-height = 8.0
+radius = 9.99999
+height = 4.00001
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 600.0
+radius = 400.0
 
 [sub_resource type="Animation" id=2]
 resource_name = "move_forward"
@@ -47,72 +48,6 @@ tracks/1/keys = {
 "values": [ 0, -0.05, -0.05, 1.0, 0 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "spawn"
-length = 10.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("BodySprite:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 8.7, 9.1, 9.4, 9.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 4 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("EyeLid:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 5, 5.3, 5.6, 8, 8.2, 8.4, 8.6, 9.3, 9.5, 9.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 3, 2, 5, 1, 0, 0, 1, 2, 4, 2, 5, 0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("EyeBall:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 4, 4.2, 4.4, 6.5, 6.7, 6.9, 7.1, 8.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 0, 1, 2, 1, 0, 1, 2, 2 ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("EyeBall:rotation_degrees")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 4, 6.7, 8.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 90.0, -90.0, 90.0, 0.0 ]
-}
-tracks/4/type = "method"
-tracks/4/path = NodePath(".")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 10 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [ true ],
-"method": "set_physics_process"
-} ]
-}
-
 [sub_resource type="Animation" id=3]
 resource_name = "turn"
 length = 0.9
@@ -129,10 +64,61 @@ tracks/0/keys = {
 "values": [ 4, 13, 14, 15, 4 ]
 }
 
+[sub_resource type="Animation" id=11]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("BodySprite:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("EyeLid:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EyeLid:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EyeLid:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=8]
 resource_name = "blink"
-length = 0.5
-step = 0.05
+length = 0.375
+step = 0.0416667
 tracks/0/type = "value"
 tracks/0/path = NodePath("EyeLid:frame")
 tracks/0/interp = 1
@@ -140,15 +126,57 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.35, 0.4, 0.45 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.0416667, 0.0833333, 0.125, 0.291667, 0.333333, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 2, 3, 2, 1, 0 ]
+"values": [ 1, 2, 3, 2, 1, 0 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "blink_attack"
+length = 0.375
+step = 0.0416667
+tracks/0/type = "value"
+tracks/0/path = NodePath("EyeLid:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.0416667, 0.0833333, 0.291667, 0.333333, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 4, 2, 1, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BodySprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.25, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 10 ), Vector2( 10, 0 ), Vector2( 10, 10 ), Vector2( 0, 10 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EyeLid:offset")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.25, 0.333333 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 10, 0 ), Vector2( 10, 10 ), Vector2( 0, 10 ), Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=7]
 resource_name = "blink_hurt"
-step = 0.05
+length = 0.416667
+step = 0.0416667
 tracks/0/type = "value"
 tracks/0/path = NodePath("EyeLid:frame")
 tracks/0/interp = 1
@@ -156,18 +184,296 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05, 0.1, 0.9, 0.95 ),
+"times": PoolRealArray( 0.0416667, 0.0833333, 0.375, 0.416667 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 4, 1, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BodySprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.0833333, 0.166667, 0.25, 0.333333 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 4, 1, 0 ]
+"values": [ Vector2( 0, 0 ), Vector2( 20, 0 ), Vector2( 20, 20 ), Vector2( 0, 20 ), Vector2( 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BodySprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.208333, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.666667, 0.666667, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EyeLid:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.208333, 0.375 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.666667, 0.666667, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Player" type="RigidBody2D"]
+[sub_resource type="Animation" id=28]
+resource_name = "die"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("EyeBall:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 3 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ false ],
+"method": "set_physics_process"
+} ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("DieParticles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.901961, 0.705882, 0.54902, 1 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:cooldown_finished")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, false ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "spawn"
+length = 7.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("BodySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 6.8, 7, 7.2, 7.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("EyeLid:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5, 3, 3.2, 3.3, 3.4, 4.5, 4.6, 4.7, 4.8, 4.9, 5, 6.5, 6.6, 6.7, 7.5, 7.6, 7.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 2, 3, 2, 1, 0, 1, 2, 3, 2, 1, 0, 1, 2, 4, 2, 1, 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("EyeBall:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 2, 2.1, 2.2, 3.3, 3.4, 3.5, 3.6, 3.7, 4.8, 4.9, 5, 5.1, 6.2, 6.3, 7.5, 7.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 0, 1, 2, 2, 1, 0, 1, 2, 1, 0, 1, 2, 1, 0, 1, 2 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("EyeBall:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 2, 3.5, 4.9, 6.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0.0, 90.0, -90.0, 90.0, 0.0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 7.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ true ],
+"method": "set_physics_process"
+} ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("DieParticles:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath(".:cooldown_finished")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 7.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+animation = "RESET"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "blink"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "blink_attack"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "blink_hurt"
+
+[sub_resource type="AnimationNodeAnimation" id=29]
+animation = "die"
+
+[sub_resource type="AnimationNodeAnimation" id=19]
+animation = "spawn"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=21]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachine" id=12]
+states/RESET/node = SubResource( 15 )
+states/RESET/position = Vector2( 443, 153 )
+states/blink/node = SubResource( 16 )
+states/blink/position = Vector2( 639, 153 )
+states/blink_attack/node = SubResource( 17 )
+states/blink_attack/position = Vector2( 566, 54 )
+states/blink_hurt/node = SubResource( 18 )
+states/blink_hurt/position = Vector2( 561, 249 )
+states/die/node = SubResource( 29 )
+states/die/position = Vector2( 246, 65 )
+states/spawn/node = SubResource( 19 )
+states/spawn/position = Vector2( 246, 153 )
+transitions = [ "spawn", "RESET", SubResource( 20 ), "RESET", "blink_attack", SubResource( 21 ), "blink_attack", "RESET", SubResource( 22 ), "RESET", "blink_hurt", SubResource( 23 ), "blink_hurt", "RESET", SubResource( 24 ), "RESET", "blink", SubResource( 25 ), "blink", "RESET", SubResource( 26 ), "RESET", "die", SubResource( 30 ) ]
+start_node = "spawn"
+end_node = "die"
+graph_offset = Vector2( 0, 17.7487 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=13]
+
+[sub_resource type="Curve" id=32]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0782704, 0, 0, Vector2( 1, 0 ), -0.300852, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=33]
+width = 1024
+curve = SubResource( 32 )
+
+[sub_resource type="ParticlesMaterial" id=31]
+lifetime_randomness = 0.1
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 400.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 2100.0
+damping_random = 0.2
+angle = 30.0
+angle_random = 0.2
+scale = 0.03
+scale_random = 0.05
+scale_curve = SubResource( 33 )
+hue_variation = 0.1
+hue_variation_random = 0.2
+
+[node name="Player" type="RigidBody2D" groups=["player"]]
 z_index = 1
 physics_material_override = SubResource( 4 )
 gravity_scale = 0.0
-contacts_reported = 5
-contact_monitor = true
 can_sleep = false
 linear_damp = 5.0
 angular_damp = 6.0
@@ -195,20 +501,20 @@ monitorable = false
 shape = SubResource( 9 )
 
 [node name="BodySprite" type="Sprite" parent="."]
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
+frame = 4
 
 [node name="EyeBall" type="Sprite" parent="."]
-rotation = 1.5708
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 4 )
 hframes = 2
 vframes = 2
 
 [node name="EyeLid" type="Sprite" parent="."]
-scale = Vector2( 0.3, 0.3 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 hframes = 3
 vframes = 2
@@ -216,15 +522,35 @@ vframes = 2
 [node name="MainAnimations" type="AnimationPlayer" parent="."]
 playback_speed = 2.0
 anims/move_forward = SubResource( 2 )
-anims/spawn = SubResource( 6 )
 anims/turn = SubResource( 3 )
 
 [node name="SecondaryAnimations" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 11 )
 anims/blink = SubResource( 8 )
+anims/blink_attack = SubResource( 10 )
 anims/blink_hurt = SubResource( 7 )
+anims/die = SubResource( 28 )
+anims/spawn = SubResource( 27 )
+
+[node name="ExpressionAnimTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 12 )
+anim_player = NodePath("../SecondaryAnimations")
+parameters/playback = SubResource( 13 )
 
 [node name="AttackCD" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 3.03
+one_shot = true
+
+[node name="DieParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 15
+lifetime = 10.0
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.9
+local_coords = false
+process_material = SubResource( 31 )
+texture = ExtResource( 6 )
 
 [connection signal="body_entered" from="SightRange" to="." method="_on_SightRange_body_entered"]
 [connection signal="body_exited" from="SightRange" to="." method="_on_SightRange_body_exited"]

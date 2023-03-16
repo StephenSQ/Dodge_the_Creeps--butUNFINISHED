@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Assets/art/Player/CytoAttackSpriteSheet.png" type="Texture" id=1]
 [ext_resource path="res://GlobalScripts/HitBox.gd" type="Script" id=2]
@@ -7,40 +7,12 @@
 [ext_resource path="res://Assets/art/Player/CytoSplashParticle.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 100.0
+radius = 40.0
 
 [sub_resource type="CircleShape2D" id=19]
-radius = 30.0
 
 [sub_resource type="CircleShape2D" id=20]
-radius = 100.0
-
-[sub_resource type="Curve" id=28]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=29]
-width = 1024
-curve = SubResource( 28 )
-
-[sub_resource type="ParticlesMaterial" id=27]
-lifetime_randomness = 0.1
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 0, 0 )
-initial_velocity = 400.0
-initial_velocity_random = 0.3
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 3000.0
-damping_random = 0.2
-angle = 30.0
-angle_random = 0.2
-scale = 0.06
-scale_random = 0.2
-scale_curve = SubResource( 29 )
-color = Color( 1, 0.882353, 0.823529, 1 )
-hue_variation = 0.1
-hue_variation_random = 0.02
+radius = 40.0
 
 [sub_resource type="Curve" id=25]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
@@ -50,23 +22,23 @@ width = 1024
 curve = SubResource( 25 )
 
 [sub_resource type="ParticlesMaterial" id=24]
-lifetime_randomness = 0.1
+lifetime_randomness = 0.2
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 500.0
+initial_velocity = 400.0
 initial_velocity_random = 0.3
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-damping = 2100.0
+damping = 2500.0
 damping_random = 0.2
 angle = 30.0
 angle_random = 0.2
-scale = 0.2
+scale = 0.05
 scale_random = 0.1
 scale_curve = SubResource( 26 )
 hue_variation = 0.03
-hue_variation_random = 0.02
+hue_variation_random = 0.1
 
 [sub_resource type="Animation" id=6]
 length = 0.001
@@ -113,18 +85,6 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ false ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("SplatterParticles:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
@@ -209,18 +169,6 @@ tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
 "times": PoolRealArray( 0.208333 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("SplatterParticles:emitting")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
-"times": PoolRealArray( 0.21 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
@@ -337,23 +285,10 @@ shape = SubResource( 20 )
 disabled = true
 
 [node name="BodySprite" type="Sprite" parent="."]
-scale = Vector2( 0.2, 0.2 )
+scale = Vector2( 0.08, 0.08 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 3
-frame = 1
-
-[node name="SplatterParticles" type="Particles2D" parent="."]
-emitting = false
-amount = 5
-lifetime = 6.0
-one_shot = true
-preprocess = 0.3
-explosiveness = 0.95
-randomness = 0.2
-local_coords = false
-process_material = SubResource( 27 )
-texture = ExtResource( 5 )
 
 [node name="SplashParticles" type="Particles2D" parent="."]
 emitting = false
@@ -361,7 +296,6 @@ lifetime = 6.0
 one_shot = true
 preprocess = 0.3
 explosiveness = 0.9
-randomness = 0.2
 local_coords = false
 process_material = SubResource( 24 )
 texture = ExtResource( 5 )

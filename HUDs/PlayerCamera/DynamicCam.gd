@@ -3,9 +3,9 @@ extends Camera2D
 
 onready var screen_size = get_viewport_rect().size
 var move_speed = 0.1
-var zoom_speed = 0.25
-var min_zoom = 1
-var max_zoom = 3
+var zoom_speed = 0.2
+var min_zoom = 0.5
+var max_zoom = 20
 var rect_margin = Vector2(400, 200)
 
 
@@ -39,16 +39,16 @@ func _process(_delta) -> void:
 	destination /= tracked_targets.size()
 	position = lerp(position, destination, move_speed)
 	
-	var zoom_rect = Rect2(position, Vector2.ONE)
+	var focus_rect = Rect2(position, Vector2.ONE)
 	for target in tracked_targets:
-		zoom_rect = zoom_rect.expand(target.position)
-	zoom_rect.grow_individual(rect_margin.x, rect_margin.y, rect_margin.x, rect_margin.y)
+		focus_rect = focus_rect.expand(target.position)
+	focus_rect.grow_individual(rect_margin.x, rect_margin.y, rect_margin.x, rect_margin.y)
 	
 	var desired_zoom
-	if zoom_rect.size.x > zoom_rect.size.y * screen_size.aspect():
-		desired_zoom = clamp(zoom_rect.size.x / screen_size.x, min_zoom, max_zoom)
+	if focus_rect.size.x > focus_rect.size.y * screen_size.aspect():
+		desired_zoom = clamp(focus_rect.size.x / screen_size.x, min_zoom, max_zoom)
 	else:
-		desired_zoom = clamp(zoom_rect.size.y / screen_size.y, min_zoom, max_zoom)
+		desired_zoom = clamp(focus_rect.size.y / screen_size.y, min_zoom, max_zoom)
 	
 	zoom = lerp(zoom, Vector2.ONE * desired_zoom, zoom_speed)
 
