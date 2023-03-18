@@ -2,15 +2,14 @@ extends RigidBody2D
 
 # ONREADY VARIABLES
 onready var main_animation := $MainAnimations
-onready var secd_animation := $SecondaryAnimations
 onready var expressions # for animation tree statemachine
 onready var body_sprite := $BodySprite
-onready var eyelid_reset = secd_animation.get_animation("RESET")
+onready var eyelid_reset = $SecondaryAnimations.get_animation("RESET")
 onready var eye_sprite := $EyeBall
 onready var attack_cd := $AttackCD
 
 # STATS VARIABLES
-var max_level := 1.0 # note: using update_stats you can play with every lvl stats
+var max_level := 1 # note: using update_stats you can play with every lvl stats
 var move_speed := 5000.0 # max = 10000, playback_speed = 3
 var turn_speed := 2000.0 # max = 4000
 var max_health := 10.0 # max = 200
@@ -36,7 +35,7 @@ func _ready() -> void:
 	expressions = $ExpressionAnimTree.get("parameters/playback")
 	$ExpressionAnimTree.active = true # activate animation tree on ready
 	$HurtBox.collision_layer = 0 # so player won't trigger its mines
-	update_stats(max_level)
+	update_stats(max_level) # to set stats to its set max_level
 	set_physics_process(false) # be set to true on spawn animation
 	set_process_unhandled_input(false) # be set to true on spawn animation
 
@@ -70,7 +69,6 @@ func _physics_process(delta) -> void:
 		eye_sprite.rotation = (eye_target.position - position).angle() + (PI / 2) - rotation
 	elif eye_sprite.rotation: # if there's nothing in sight and eye hasn't faced forward
 		eye_sprite.rotation = lerp_angle(eye_sprite.rotation, 0, 0.05) # move eye to face forward
-		print("eye move")
 
 
 # PLAYER ATTACK
@@ -99,7 +97,7 @@ func take_damage(amount: float) -> void:
 	health -= amount
 	print(health)
 	if health < 1:
-		emit_signal("died")
+		emit_signal("died", self)
 		expressions.travel("die")
 		return
 	elif health < max_health / 2.0:
@@ -113,31 +111,16 @@ func take_damage(amount: float) -> void:
 
 # PLAYER HEAL
 func heal(amount: float) -> void:
-	health = clamp(health + amount, 0, max_health)
+	health = min(health + amount, max_health)
 
 # PLAYER RELOAD
 func reload(amount: int) -> void:
 # warning-ignore:narrowing_conversion
-	ammo = clamp(ammo + amount, 0, max_ammo)
-
-
-# SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED
-func _on_SightRange_body_entered(target: RigidBody2D) -> void:
-	if not target:
-		return
-	
-	emit_signal("entered_sight", target)
-	if target != self:
-		eye_target = target
-
-func _on_SightRange_body_exited(target: RigidBody2D) -> void:
-	if target == eye_target:
-		eye_target = null
-	emit_signal("exited_sight", target)
+	ammo = min(ammo + amount, max_ammo)
 
 
 # TO UPDATE AND UPGRADE PLAYER STATS
-func update_stats(lvl) -> void:
+func update_stats(lvl: int) -> void:
 	if lvl > max_level || lvl < 1:
 		return
 	
@@ -156,12 +139,27 @@ func update_stats(lvl) -> void:
 	health = max_health
 	ammo = max_ammo
 
-func upgrade(lvl) -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is for custom upgrade
+func upgrade(lvl: int) -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is to jump levels
 	if lvl > 20 || lvl < 0:
 		return
 	
-	if !lvl && max_level < 20:
+	if !lvl && max_level < 20: # if lvl is 0
 		max_level += 1
 	elif lvl:
 		max_level = lvl
 	update_stats(max_level)
+
+
+# SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED
+func _on_SightRange_body_entered(target: RigidBody2D) -> void:
+	if not target:
+		return
+	
+	emit_signal("entered_sight", target)
+	if target != self:
+		eye_target = target
+
+func _on_SightRange_body_exited(target: RigidBody2D) -> void:
+	if target == eye_target:
+		eye_target = null
+	emit_signal("exited_sight", target)

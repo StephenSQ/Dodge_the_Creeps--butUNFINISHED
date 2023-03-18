@@ -2,13 +2,13 @@ extends Camera2D
 
 
 onready var screen_size = get_viewport_rect().size
-onready var game_world = get_parent()
 onready var animation = $AnimationPlayer
-var move_speed = 0.1
-var zoom_speed = 0.2
-var min_zoom = 0.5
-var max_zoom = 10
-var rect_margin = Vector2(400, 200)
+var move_speed := 0.1
+var zoom_speed := 0.2
+var min_zoom := 0.5
+var max_zoom := 10
+var rect_margin := Vector2(400, 200)
+var trauma : float # for screenshake
 
 
 func _ready():
@@ -56,17 +56,17 @@ func _process(_delta) -> void:
 	zoom = lerp(zoom, Vector2.ONE * desired_zoom, zoom_speed)
 
 
-func _on_Player_entered_sight(target):
+func _on_Player_entered_sight(target) -> void:
 	add_target(target)
 
-
-func _on_Player_exited_sight(target):
+func _on_Player_exited_sight(target) -> void:
 	remove_target(target)
 
 
-func _on_MainTest_screenshake(shake):
-	match shake:
-		game_world.camera_action.HIT:
-			animation.play("shake_hurt")
-		game_world.camera_action.DIE:
-			animation.play("player_died")
+# simple screenshake functions
+func screenshake(strength: float) -> void:
+	trauma = strength
+	animation.play("brief_shake")
+
+func shake(x: float, y: float) -> void:
+	offset = Vector2(trauma * x, trauma * y)

@@ -446,7 +446,7 @@ states/spawn/position = Vector2( 246, 153 )
 transitions = [ "spawn", "RESET", SubResource( 20 ), "RESET", "blink_attack", SubResource( 21 ), "blink_attack", "RESET", SubResource( 22 ), "RESET", "blink_hurt", SubResource( 23 ), "blink_hurt", "RESET", SubResource( 24 ), "RESET", "blink", SubResource( 25 ), "blink", "RESET", SubResource( 26 ), "RESET", "die", SubResource( 30 ) ]
 start_node = "spawn"
 end_node = "die"
-graph_offset = Vector2( 0, 17.7487 )
+graph_offset = Vector2( -16.0789, 68.4987 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
@@ -476,7 +476,7 @@ scale_curve = SubResource( 33 )
 hue_variation = 0.1
 hue_variation_random = 0.2
 
-[node name="Player" type="RigidBody2D" groups=["player"]]
+[node name="Player" type="RigidBody2D"]
 z_index = 1
 physics_material_override = SubResource( 4 )
 gravity_scale = 0.0

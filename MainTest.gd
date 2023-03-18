@@ -1,21 +1,22 @@
 extends Node
 
+onready var camera = $DynamicCam
 export var CytolyticCell_scene: PackedScene
 export var players: PackedScene
 
-enum camera_action {HIT, DIE}
-signal screenshake # to make camera do screenshake
-
 func _ready() -> void:
 	# spawn players in all levels
-#	for i in range(20):
-#		var player_test = players.instance()
-#		player_test.position = Vector2(0, i * 50)
-#		player_test.rotation = PI / 2.0
-#		player_test.connect("attack", self, "_on_Player_attack")
-#		player_test.max_level = i + 1
-#		$DynamicCam.add_target(player_test)
-#		add_child(player_test)
+	for i in range(20):
+		var player_test = players.instance()
+		player_test.position = Vector2(0, i * 50)
+		player_test.rotation = PI / 2.0
+		player_test.connect("attack", self, "_on_Player_attack")
+		player_test.connect("hit", self, "_on_Player_hit")
+		player_test.connect("died", self, "_on_Player_died")
+		player_test.max_level = 20
+		$DynamicCam.add_target(player_test)
+		add_child(player_test)
+		print(player_test.health)
 	
 	# compare default stats to max stats
 #	$DynamicCam.add_target($Player)
@@ -30,9 +31,6 @@ func _ready() -> void:
 #	$Player2.connect("attack", self, "_on_Player_attack")
 #	print($Player.max_health)
 #	print($Player2.max_health)
-	
-	$DynamicCam.add_target($Player)
-	$Player.upgrade(20)
 
 
 func _on_Player_attack(damage, player) -> void:
@@ -43,8 +41,8 @@ func _on_Player_attack(damage, player) -> void:
 
 
 func _on_Player_hit():
-	emit_signal("screenshake", camera_action.HIT)
+	camera.screenshake(5)
 
-
-func _on_Player_died():
-	emit_signal("screenshake", camera_action.DIE)
+func _on_Player_died(player):
+	camera.remove_target(player)
+	camera.screenshake(10)
