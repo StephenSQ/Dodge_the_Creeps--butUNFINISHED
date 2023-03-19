@@ -3,7 +3,7 @@
 [ext_resource path="res://MainTest.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Player/PlayerMine/CytolyticCell.tscn" type="PackedScene" id=3]
-[ext_resource path="res://HUDs/PlayerCamera/DynamicCam.tscn" type="PackedScene" id=4]
+[ext_resource path="res://HUDs/MainCamera/MainCamera.tscn" type="PackedScene" id=4]
 
 [node name="MainTest" type="Node"]
 script = ExtResource( 1 )

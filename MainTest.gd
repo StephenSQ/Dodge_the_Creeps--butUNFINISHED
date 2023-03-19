@@ -16,7 +16,6 @@ func _ready() -> void:
 		player_test.max_level = 20
 		$DynamicCam.add_target(player_test)
 		add_child(player_test)
-		print(player_test.health)
 	
 	# compare default stats to max stats
 #	$DynamicCam.add_target($Player)

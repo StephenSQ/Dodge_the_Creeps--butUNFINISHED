@@ -6,8 +6,8 @@ onready var animation = $AnimationPlayer
 var move_speed := 0.1
 var zoom_speed := 0.2
 var min_zoom := 0.5
-var max_zoom := 10
-var rect_margin := Vector2(400, 200)
+var max_zoom := 50
+var rect_margin := Vector2(800, 800)
 var trauma : float # for screenshake
 
 
@@ -17,7 +17,6 @@ func _ready():
 
 func _on_viewport_size_changed() -> void:
 	screen_size = get_viewport_rect().size
-	print("viewport changed")
 
 
 var tracked_targets = []

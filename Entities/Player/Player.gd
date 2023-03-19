@@ -16,7 +16,6 @@ var max_health := 10.0 # max = 200
 var max_ammo := 3 # max = 15
 var damage := 3.0 # max = 38
 
-
 var health : float
 var ammo : int
 var eye_target = null
@@ -31,6 +30,7 @@ signal exited_sight # alert camera that something left the player's sight
 signal died # to inform the game that the player has died
 
 
+
 func _ready() -> void:
 	expressions = $ExpressionAnimTree.get("parameters/playback")
 	$ExpressionAnimTree.active = true # activate animation tree on ready
@@ -39,7 +39,8 @@ func _ready() -> void:
 	set_physics_process(false) # be set to true on spawn animation
 	set_process_unhandled_input(false) # be set to true on spawn animation
 
-# MOVEMENT IN _PHYSICS_PROCESS()
+
+# MOVEMENT IN _PHYSICS_PROCESS()	--------------------------------------------
 func _physics_process(delta) -> void:
 	# TURNING MOVEMENT
 	var direction = 0
@@ -71,7 +72,8 @@ func _physics_process(delta) -> void:
 		eye_sprite.rotation = lerp_angle(eye_sprite.rotation, 0, 0.05) # move eye to face forward
 
 
-# PLAYER ATTACK
+
+# PLAYER ATTACK ----------------------------------------------------------------
 func _unhandled_input(event) -> void:
 	if event.is_action_pressed("attack_spacebar"):
 		if cooldown_finished && ammo:
@@ -119,7 +121,8 @@ func reload(amount: int) -> void:
 	ammo = min(ammo + amount, max_ammo)
 
 
-# TO UPDATE AND UPGRADE PLAYER STATS
+
+# TO UPDATE AND UPGRADE PLAYER STATS -------------------------------------------
 func update_stats(lvl: int) -> void:
 	if lvl > max_level || lvl < 1:
 		return
@@ -150,7 +153,8 @@ func upgrade(lvl: int) -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is to j
 	update_stats(max_level)
 
 
-# SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED
+
+# SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED ------------------
 func _on_SightRange_body_entered(target: RigidBody2D) -> void:
 	if not target:
 		return
