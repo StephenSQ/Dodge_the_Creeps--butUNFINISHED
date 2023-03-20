@@ -7,12 +7,13 @@
 [ext_resource path="res://Assets/art/Player/CytoSplashParticle.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 40.0
+radius = 25.0
 
 [sub_resource type="CircleShape2D" id=19]
+radius = 5.0
 
 [sub_resource type="CircleShape2D" id=20]
-radius = 40.0
+radius = 25.0
 
 [sub_resource type="Curve" id=25]
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
@@ -26,16 +27,16 @@ lifetime_randomness = 0.2
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
-initial_velocity = 400.0
+initial_velocity = 350.0
 initial_velocity_random = 0.3
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-damping = 2500.0
+damping = 3000.0
 damping_random = 0.2
 angle = 30.0
 angle_random = 0.2
-scale = 0.05
-scale_random = 0.1
+scale = 0.03
+scale_random = 0.03
 scale_curve = SubResource( 26 )
 hue_variation = 0.03
 hue_variation_random = 0.1
@@ -285,7 +286,7 @@ shape = SubResource( 20 )
 disabled = true
 
 [node name="BodySprite" type="Sprite" parent="."]
-scale = Vector2( 0.08, 0.08 )
+scale = Vector2( 0.04, 0.04 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 3

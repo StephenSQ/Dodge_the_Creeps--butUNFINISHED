@@ -5,7 +5,7 @@ onready var screen_size = get_viewport_rect().size
 onready var animation = $AnimationPlayer
 var move_speed := 0.1
 var zoom_speed := 0.2
-var min_zoom := 0.5
+var min_zoom := 0.15
 var max_zoom := 50
 var rect_margin := Vector2(800, 800)
 var trauma : float # for screenshake

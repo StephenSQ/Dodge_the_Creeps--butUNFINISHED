@@ -12,14 +12,41 @@ friction = 0.1
 bounce = 0.1
 
 [sub_resource type="CapsuleShape2D" id=1]
-height = 4.00001
+radius = 5.0
+height = 2.0
 
 [sub_resource type="CapsuleShape2D" id=5]
-radius = 9.99999
-height = 4.00001
+radius = 4.99999
+height = 2.00001
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 400.0
+radius = 200.0
+
+[sub_resource type="Curve" id=32]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0782704, 0, 0, Vector2( 1, 0 ), -0.300852, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=33]
+width = 1024
+curve = SubResource( 32 )
+
+[sub_resource type="ParticlesMaterial" id=31]
+lifetime_randomness = 0.1
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 350.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 3000.0
+damping_random = 0.2
+angle = 30.0
+angle_random = 0.2
+scale = 0.03
+scale_random = 0.03
+scale_curve = SubResource( 33 )
+hue_variation = 0.1
+hue_variation_random = 0.2
 
 [sub_resource type="Animation" id=2]
 resource_name = "move_forward"
@@ -498,32 +525,6 @@ graph_offset = Vector2( -16.0789, 68.4987 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=13]
 
-[sub_resource type="Curve" id=32]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0782704, 0, 0, Vector2( 1, 0 ), -0.300852, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=33]
-width = 1024
-curve = SubResource( 32 )
-
-[sub_resource type="ParticlesMaterial" id=31]
-lifetime_randomness = 0.1
-flag_disable_z = true
-spread = 180.0
-gravity = Vector3( 0, 98, 0 )
-initial_velocity = 400.0
-initial_velocity_random = 0.3
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-damping = 2100.0
-damping_random = 0.2
-angle = 30.0
-angle_random = 0.2
-scale = 0.03
-scale_random = 0.05
-scale_curve = SubResource( 33 )
-hue_variation = 0.1
-hue_variation_random = 0.2
-
 [node name="Player" type="RigidBody2D"]
 z_index = 1
 physics_material_override = SubResource( 4 )
@@ -554,22 +555,33 @@ monitorable = false
 shape = SubResource( 9 )
 
 [node name="BodySprite" type="Sprite" parent="."]
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 4
 
 [node name="EyeBall" type="Sprite" parent="."]
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 4 )
 hframes = 2
 vframes = 2
 
 [node name="EyeLid" type="Sprite" parent="."]
-scale = Vector2( 0.1, 0.1 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 5 )
 hframes = 3
 vframes = 2
+
+[node name="DieParticles" type="Particles2D" parent="."]
+emitting = false
+amount = 15
+lifetime = 10.0
+one_shot = true
+preprocess = 0.1
+explosiveness = 0.9
+local_coords = false
+process_material = SubResource( 31 )
+texture = ExtResource( 6 )
 
 [node name="MainAnimations" type="AnimationPlayer" parent="."]
 playback_process_mode = 0
@@ -594,17 +606,6 @@ parameters/playback = SubResource( 13 )
 [node name="AttackCD" type="Timer" parent="."]
 wait_time = 3.03
 one_shot = true
-
-[node name="DieParticles" type="Particles2D" parent="."]
-emitting = false
-amount = 15
-lifetime = 10.0
-one_shot = true
-preprocess = 0.1
-explosiveness = 0.9
-local_coords = false
-process_material = SubResource( 31 )
-texture = ExtResource( 6 )
 
 [connection signal="body_entered" from="SightRange" to="." method="_on_SightRange_body_entered"]
 [connection signal="body_exited" from="SightRange" to="." method="_on_SightRange_body_exited"]

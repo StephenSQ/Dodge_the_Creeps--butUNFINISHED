@@ -132,11 +132,11 @@ func update_stats(lvl: int) -> void:
 	damage = lvl * 3							# 3, 6, 9, ... max = 60
 	attack_cd.wait_time = 2.97 - ((lvl - 1.0) * 0.13)	# 2.97, 2.84, max = 0.5 s
 	
-	turn_speed = 2000.0 + ceil((lvl - 1.0) * 105.26)	# 2000, 2106, ... max = 4000
+	turn_speed = 600.0 + ceil((lvl - 1.0) * 31.57)	# 2000, 2106, ... max = 1200
 	angular_damp = stepify(5 + ((lvl - 1.0) * 0.15), 0.15)		# 6.1, 6.2, ... max = 8
 	
 	main_animation.playback_speed = stepify(2.0 + ((lvl - 1.0) * 0.052), 0.1) # max = 3
-	move_speed = 5000.0 + ceil((lvl - 1.0) * 157.89) # 5000, 5158, ... max = 8000
+	move_speed = 3000.0 + ceil((lvl - 1.0) * 78.95) # 5000, 5158, ... max = 4500
 	
 	
 	health = max_health
