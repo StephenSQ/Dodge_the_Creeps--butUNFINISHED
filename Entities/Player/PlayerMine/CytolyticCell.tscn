@@ -257,12 +257,6 @@ end_node = "despawn"
 [node name="CytolyticCell" type="Area2D"]
 input_pickable = false
 priority = 1.0
-space_override = 2
-gravity_point = true
-gravity_vec = Vector2( 0, 0 )
-gravity = -3000.0
-linear_damp = 0.0
-angular_damp = 0.0
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -320,5 +314,4 @@ wait_time = 5.0
 one_shot = true
 
 [connection signal="body_entered" from="." to="." method="_on_CytolyticCell_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_CytolyticCell_body_exited"]
 [connection signal="timeout" from="LifeTime" to="." method="_on_LifeTime_timeout"]

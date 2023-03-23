@@ -10,4 +10,4 @@ script = ExtResource( 1 )
 CytolyticCell_scene = ExtResource( 3 )
 players = ExtResource( 2 )
 
-[node name="DynamicCam" parent="." instance=ExtResource( 4 )]
+[node name="MainCamera" parent="." instance=ExtResource( 4 )]

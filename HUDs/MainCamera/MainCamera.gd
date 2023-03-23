@@ -1,15 +1,14 @@
 extends Camera2D
 
 
+var move_speed := 0.1 # camera movement speed
+var zoom_speed := 0.2 # camera zoom speed duh
+var min_zoom := 0.15 # camera won't zoom in further than this
+var max_zoom := 2.0 # camera won't zoom out further than this
+var trauma := 0.0 # for screenshake
+
 onready var screen_size = get_viewport_rect().size
 onready var animation = $AnimationPlayer
-var move_speed := 0.1
-var zoom_speed := 0.2
-var min_zoom := 0.15
-var max_zoom := 50
-var rect_margin := Vector2(800, 800)
-var trauma : float # for screenshake
-
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -29,6 +28,7 @@ func remove_target(target) -> void:
 	if target in tracked_targets:
 		tracked_targets.erase(target)
 
+var tmp: float
 
 func _process(_delta) -> void:
 	if !tracked_targets: 
@@ -44,7 +44,7 @@ func _process(_delta) -> void:
 	var focus_rect = Rect2(position, Vector2.ONE)
 	for target in tracked_targets:
 		focus_rect = focus_rect.expand(target.position)
-	focus_rect.grow_individual(rect_margin.x, rect_margin.y, rect_margin.x, rect_margin.y)
+	focus_rect = focus_rect.grow_individual(50, 50, 50, 50)
 	
 	var desired_zoom
 	if focus_rect.size.x > focus_rect.size.y * screen_size.aspect():

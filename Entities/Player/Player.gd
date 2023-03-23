@@ -1,12 +1,5 @@
 extends RigidBody2D
 
-# ONREADY VARIABLES
-onready var main_animation := $MainAnimations
-onready var expressions # for animation tree statemachine
-onready var body_sprite := $BodySprite
-onready var eyelid_reset = $SecondaryAnimations.get_animation("RESET")
-onready var eye_sprite := $EyeBall
-onready var attack_cd := $AttackCD
 
 # STATS VARIABLES
 var max_level := 1 # note: using update_stats you can play with every lvl stats
@@ -29,7 +22,13 @@ signal entered_sight # alert camera that something enter's the player's sight
 signal exited_sight # alert camera that something left the player's sight
 signal died # to inform the game that the player has died
 
-
+# ONREADY VARIABLES
+onready var main_animation := $MainAnimations
+onready var expressions # for animation tree statemachine
+onready var body_sprite := $BodySprite
+onready var eyelid_reset = $SecondaryAnimations.get_animation("RESET")
+onready var eye_sprite := $EyeBall
+onready var attack_cd := $AttackCD
 
 func _ready() -> void:
 	expressions = $ExpressionAnimTree.get("parameters/playback")
@@ -155,15 +154,17 @@ func upgrade(lvl: int) -> void: # lvl = 0 for upgrade by 1 lvl, above 0  is to j
 
 
 # SIGNAL EMITTED HERE IS TO BE CONNECTED TO CAMERA IF DESIRED ------------------
-func _on_SightRange_body_entered(target: RigidBody2D) -> void:
+func _on_SightRange_body_entered(target: HurtBox) -> void:
 	if not target:
 		return
 	
-	emit_signal("entered_sight", target)
-	if target != self:
-		eye_target = target
+	emit_signal("entered_sight", target.owner)
+	eye_target = target.owner
 
-func _on_SightRange_body_exited(target: RigidBody2D) -> void:
-	if target == eye_target:
+func _on_SightRange_body_exited(target: HurtBox) -> void:
+	if not target:
+		return
+	
+	if eye_target == target.owner:
 		eye_target = null
-	emit_signal("exited_sight", target)
+	emit_signal("exited_sight", target.owner)

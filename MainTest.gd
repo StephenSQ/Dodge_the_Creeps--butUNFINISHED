@@ -1,8 +1,10 @@
 extends Node
 
-onready var camera = $DynamicCam
+
 export var CytolyticCell_scene: PackedScene
 export var players: PackedScene
+
+onready var camera = $MainCamera
 
 func _ready() -> void:
 	# spawn players in all levels
@@ -14,11 +16,11 @@ func _ready() -> void:
 #		player_test.connect("hit", self, "_on_Player_hit")
 #		player_test.connect("died", self, "_on_Player_died")
 #		player_test.max_level = i + 1
-#		$DynamicCam.add_target(player_test)
+#		camera.add_target(player_test)
 #		add_child(player_test)
 	
 	# compare default stats to max stats
-	for i in range(1):
+	for i in range(2):
 		var player_test = players.instance()
 		player_test.position = Vector2(0, i * 25)
 		player_test.connect("attack", self, "_on_Player_attack")
@@ -26,7 +28,7 @@ func _ready() -> void:
 		player_test.connect("died", self, "_on_Player_died")
 		player_test.max_level = 1 if i == 0 else 20
 		print(player_test.max_level)
-		$DynamicCam.add_target(player_test)
+		camera.add_target(player_test)
 		add_child(player_test)
 
 
