@@ -44,7 +44,7 @@ hue_variation_random = 0.1
 [sub_resource type="Animation" id=6]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("AreaCollision:disabled")
+tracks/0/path = NodePath("HitBox/HitBoxCollision:disabled")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -56,7 +56,7 @@ tracks/0/keys = {
 "values": [ true ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("HitBox/HitBoxCollision:disabled")
+tracks/1/path = NodePath("BodySprite:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -64,11 +64,11 @@ tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("BodySprite:modulate")
+tracks/2/path = NodePath("SplashParticles:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -77,10 +77,10 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("SplashParticles:emitting")
+tracks/3/path = NodePath("AreaCollision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -89,7 +89,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ false ]
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=21]
@@ -139,7 +139,7 @@ tracks/0/keys = {
 "values": [ 1, 8, 9, 10, 11 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("AreaCollision:disabled")
+tracks/1/path = NodePath("HitBox/HitBoxCollision:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -151,28 +151,28 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("HitBox/HitBoxCollision:disabled")
+tracks/2/path = NodePath("SplashParticles:emitting")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.208333, 0.541667 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0.208333 ),
+"transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ true ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("SplashParticles:emitting")
+tracks/3/path = NodePath("AreaCollision:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.208333 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.208333, 0.541667 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ false, true ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -256,7 +256,6 @@ end_node = "despawn"
 
 [node name="CytolyticCell" type="Area2D"]
 input_pickable = false
-priority = 1.0
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_group_": true
@@ -284,6 +283,7 @@ scale = Vector2( 0.04, 0.04 )
 texture = ExtResource( 1 )
 hframes = 4
 vframes = 3
+frame = 1
 
 [node name="SplashParticles" type="Particles2D" parent="."]
 emitting = false

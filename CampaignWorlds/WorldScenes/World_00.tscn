@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://MainTest.gd" type="Script" id=1]
+[ext_resource path="res://CampaignWorlds/WorldAssets/World_00/World_00.gd" type="Script" id=1]
 [ext_resource path="res://Entities/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Entities/Player/PlayerMine/CytolyticCell.tscn" type="PackedScene" id=3]
 [ext_resource path="res://HUDs/MainCamera/MainCamera.tscn" type="PackedScene" id=4]
 
-[node name="MainTest" type="Node"]
+[node name="Node" type="Node"]
 script = ExtResource( 1 )
 CytolyticCell_scene = ExtResource( 3 )
 players = ExtResource( 2 )

@@ -10,6 +10,7 @@ var trauma := 0.0 # for screenshake
 onready var screen_size = get_viewport_rect().size
 onready var animation = $AnimationPlayer
 
+
 func _ready():
 # warning-ignore:return_value_discarded
 	get_tree().root.connect("size_changed", self, "_on_viewport_size_changed")
@@ -28,7 +29,6 @@ func remove_target(target) -> void:
 	if target in tracked_targets:
 		tracked_targets.erase(target)
 
-var tmp: float
 
 func _process(_delta) -> void:
 	if !tracked_targets: 
